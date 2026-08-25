@@ -5,9 +5,23 @@ import { cities, cityById } from "@/data/cities";
 import { useAtlasTime } from "@/contexts/TimeContext";
 import { cityName, decimalHour, isDaytime, localStatus, timeString, timezoneLabel } from "@/lib/time";
 import { ArrowDownUp, Plus, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const defaultIds = ["riyadh", "london", "new-york", "tokyo"];
+const compareStorageKey = "atlas-time:compare-cities:v1";
+
+function readSavedCityIds() {
+  if (typeof window === "undefined") return defaultIds;
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(compareStorageKey) ?? "[]");
+    const validIds = Array.isArray(saved)
+      ? saved.filter((id): id is string => typeof id === "string" && cities.some((city) => city.id === id)).slice(0, 6)
+      : [];
+    return validIds.length >= 2 ? validIds : defaultIds;
+  } catch {
+    return defaultIds;
+  }
+}
 
 function hourDifference(now: Date, baseId: string, currentId: string) {
   const diff = decimalHour(now, cityById(currentId)) - decimalHour(now, cityById(baseId));
@@ -17,12 +31,19 @@ function hourDifference(now: Date, baseId: string, currentId: string) {
 
 export default function Compare() {
   const { language, now, is24Hour, selectedCity } = useAtlasTime();
-  const [selectedIds, setSelectedIds] = useState(defaultIds);
+  const [selectedIds, setSelectedIds] = useState(readSavedCityIds);
   const [addId, setAddId] = useState("paris");
   const isAr = language === "ar";
   const rows = useMemo(() => selectedIds.map(cityById), [selectedIds]);
   const availableCities = useMemo(() => cities.filter((city) => !selectedIds.includes(city.id)), [selectedIds]);
   const canAdd = selectedIds.length < 6 && availableCities.length > 0;
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(compareStorageKey, JSON.stringify(selectedIds));
+    } catch {
+      // يبقى الاختيار متاحاً للجلسة الحالية إذا عطّل المتصفح التخزين المحلي.
+    }
+  }, [selectedIds]);
   const add = () => {
     if (!canAdd || !addId || selectedIds.includes(addId)) return;
     setSelectedIds((items) => [...items, addId]);
