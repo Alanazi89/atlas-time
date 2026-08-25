@@ -4,11 +4,12 @@ import WorldClock from "@/components/WorldClock";
 import { useAtlasTime } from "@/contexts/TimeContext";
 import { cityById } from "@/data/cities";
 import { cityName, timeString, timezoneLabel } from "@/lib/time";
+import { atlasAssets } from "@/lib/assets";
 import { ArrowUpRight, LocateFixed, Moon, Sunrise } from "lucide-react";
 import { Link } from "wouter";
 import type { CSSProperties } from "react";
 
-const heroImage = "/manus-storage/atlas-hero-horology_9a41dc3d.jpg";
+const heroImage = atlasAssets.heroHorology;
 
 export default function Home() {
   const { selectedCity, now, language, is24Hour, locateNearestCity } = useAtlasTime();

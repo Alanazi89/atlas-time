@@ -2,12 +2,13 @@
 import { cities } from "@/data/cities";
 import { useAtlasTime } from "@/contexts/TimeContext";
 import { cityName, decimalHour, gregorianDate, hijriDate, timeParts, timezoneLabel } from "@/lib/time";
+import { atlasAssets } from "@/lib/assets";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, GripVertical, MapPin, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import CityPicker from "./CityPicker";
 
-const mapDisc = "/manus-storage/atlas-map-disc_59ae3a70.jpg";
+const mapDisc = atlasAssets.mapDisc;
 
 function SolarDetails() {
   const { selectedCity, now, language } = useAtlasTime();

@@ -1,11 +1,12 @@
 /** ATLAS TIME — غلاف ملاحي هادئ: فخامة أدوات السفر، ذهب معتّق، لا بطاقات عامة. */
 import { useAtlasTime } from "@/contexts/TimeContext";
 import { cityName } from "@/lib/time";
+import { atlasAssets } from "@/lib/assets";
 import { Compass, Globe2, Menu, MoonStar, Settings2, SunMedium } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import type { ReactNode } from "react";
 
-const mark = "/manus-storage/atlas-logo-mark_891c4470.png";
+const mark = atlasAssets.logoMark;
 
 const navItems = [
   { href: "/", ar: "المرصد", en: "Observatory", icon: Compass },
@@ -44,4 +45,3 @@ export default function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
