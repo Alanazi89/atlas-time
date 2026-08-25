@@ -30,7 +30,7 @@ a { color:inherit; text-decoration:none; }
 /* ATLAS TIME — قراءة موحّدة HH:MM:SS: الثواني بجوار الدقائق ضمن محور LTR ثابت. */
 .main-time{direction:ltr;gap:.045em}
 .main-time em{font-family:"DM Serif Display",serif;font-size:.46em;color:var(--gold-bright);font-style:normal;letter-spacing:-.04em;margin:0;text-shadow:0 0 16px rgba(212,175,106,.18)}
-.main-time .seconds-readout{display:inline-flex;align-items:baseline;gap:0;min-width:1.42em;color:var(--gold-bright);overflow:hidden}.main-time .seconds-readout>i{font-style:normal;font-family:"DM Serif Display",serif;font-size:.46em;letter-spacing:-.04em}.main-time .seconds-readout em{display:inline-block;min-width:1.08em}
+.main-time .seconds-readout{display:inline-flex;align-items:baseline;gap:0;min-width:1.42em;color:var(--gold-bright);overflow:visible}.main-time .seconds-readout>i{font-style:normal;font-family:"DM Serif Display",serif;font-size:.46em;letter-spacing:-.04em}.main-time .seconds-readout em{display:inline-block;min-width:.54em;text-align:center}
 .dial-center .main-time{transform:translateX(.6em)}
 
 /* ATLAS TIME — طبقة أدوات الصفحات: حقل أطلسي، مؤشرات 12، أسطح معدن محفور. */
