@@ -32,11 +32,11 @@ export function TimeProvider({ children }: { children: ReactNode }) {
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (!saved) return;
     try {
+      const saved = localStorage.getItem(storageKey);
+      if (!saved) return;
       const value = JSON.parse(saved);
-      if (value.selectedId) setSelectedId(value.selectedId);
+      if (typeof value.selectedId === "string" && cities.some((city) => city.id === value.selectedId)) setSelectedId(value.selectedId);
       if (Array.isArray(value.favorites)) setFavorites(value.favorites);
       if (Array.isArray(value.recents)) setRecents(value.recents);
       if (value.language === "ar" || value.language === "en") setLanguage(value.language);
@@ -46,7 +46,9 @@ export function TimeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify({ selectedId, favorites, recents, language, is24Hour, lightMode }));
+    try {
+      localStorage.setItem(storageKey, JSON.stringify({ selectedId, favorites, recents, language, is24Hour, lightMode }));
+    } catch { /* تبقى الإعدادات للجلسة الحالية إذا عطّل المتصفح التخزين المحلي. */ }
     document.documentElement.classList.toggle("atlas-light", lightMode);
     document.documentElement.lang = language;
     document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
@@ -85,4 +87,3 @@ export const useAtlasTime = () => {
   if (!context) throw new Error("useAtlasTime must be used within TimeProvider");
   return context;
 };
-
